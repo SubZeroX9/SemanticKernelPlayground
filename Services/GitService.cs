@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 
 namespace SemanticKernelPlayground.Services;
-public class GitService(ILogger<GitService> logger)
+public class GitService(ILogger<GitService> logger) : IGitService
 {
     private readonly ILogger<GitService> _logger = logger;
 
@@ -12,6 +12,20 @@ public class GitService(ILogger<GitService> logger)
     public bool SetRepoPath(string repoPath)
     {
         _repoPath = repoPath;
+        if (string.IsNullOrWhiteSpace(_repoPath))
+        {
+            _logger.LogError("Repository path is empty or null.");
+            return false;
+        }
+
+        if (!Directory.Exists(_repoPath))
+        {
+            _logger.LogError("Repository path does not exist: {RepoPath}", repoPath);
+            return false;
+        }
+
+        _logger.LogInformation("Set new Repo Path: {repoPath}", _repoPath);
+
         try
         {
             _repo = new Repository(_repoPath);
