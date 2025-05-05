@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
@@ -16,10 +17,17 @@ var endpoint = configuration["Endpoint"] ?? throw new ApplicationException("Endp
 var apiKey = configuration["ApiKey"] ?? throw new ApplicationException("ApiKey not found");
 
 var services = new ServiceCollection();
+services.AddLogging(builder => builder.AddConsole());
+
 services.AddSingleton<IGitService, GitService>();
 
 var builder = Kernel.CreateBuilder()
     .AddAzureOpenAIChatCompletion(modelName, endpoint, apiKey);
+
+foreach (var serviceDescriptor in services)
+{
+    builder.Services.Add(serviceDescriptor);
+}
 
 builder.Plugins.AddFromType<GitPlugin>();
 
