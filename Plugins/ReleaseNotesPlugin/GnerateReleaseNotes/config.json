@@ -15,17 +15,17 @@
       {
         "name": "commits",
         "description": "A list of commit messages to be used as the basis for the release notes.",
-        "defaultValue": ""
+        "default": ""
       },
       {
         "name": "version",
         "description": "The version number of the release.",
-        "defaultValue": "v0.0.1"
+        "default": "v0.0.1"
       },
       {
         "name": "releaseDate",
         "description": "The release date for the release notes.",
-        "defaultValue": "2025-05-06"
+        "default": "2025-05-06"
       }
     ]
   },
