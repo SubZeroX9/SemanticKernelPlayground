@@ -31,6 +31,9 @@ foreach (var serviceDescriptor in services)
 
 builder.Plugins.AddFromType<GitPlugin>();
 
+var pluginPath = Path.Combine(Directory.GetCurrentDirectory(), "Plugins", "ReleaseNotesPlugin");
+builder.Plugins.AddFromPromptDirectory(pluginPath);
+
 var kernel = builder.Build();
 
 var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
@@ -41,6 +44,11 @@ AzureOpenAIPromptExecutionSettings openAiPromptExecutionSettings = new()
 };
 
 var history = new ChatHistory();
+history.AddSystemMessage("Your job is to assist me with Managing my git repositories." +
+                         "When asked what you capabilities are answer based on your plugins" +
+                         "When Generating Release Notes request from user version for the input or ask if he wants to bump patch/minor/major version." +
+                         "If no Tagged version Found Set default version." +
+                         "if version not provided Give a default Version");
 
 do
 {

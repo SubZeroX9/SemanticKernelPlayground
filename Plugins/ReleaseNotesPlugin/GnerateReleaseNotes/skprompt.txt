@@ -1,0 +1,13 @@
+﻿You are an expert technical writer. Based on the following commit messages, generate concise and clear release notes.
+
+Generate release notes for version {{version}} released on {{releaseDate}}.
+
+If the version is not provided, use the latest git tag or default to v0.0.1.
+Only include important user-facing changes or improvements.
+Group related changes together under meaningful headings (e.g., Features, Bug Fixes, Performance, Refactoring).
+Exclude internal-only or trivial changes unless significant.
+
+Commit messages:
+{{commits}}
+
+Release Notes:
