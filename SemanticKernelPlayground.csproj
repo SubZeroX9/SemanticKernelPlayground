@@ -27,4 +27,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Plugins\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

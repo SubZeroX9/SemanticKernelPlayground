@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "description": "Generates structured release notes from commit messages.",
+  "execution_settings": {
+    "default": {
+      "max_tokens": 500,
+      "temperature": 0.5,
+      "top_p": 0.9,
+      "presence_penalty": 0,
+      "frequency_penalty": 0
+    }
+  },
+  "input": {
+    "parameters": [
+      {
+        "name": "commits",
+        "description": "A list of commit messages to be used as the basis for the release notes.",
+        "defaultValue": ""
+      },
+      {
+        "name": "version",
+        "description": "The version number of the release.",
+        "defaultValue": "v1.0.0"
+      },
+      {
+        "name": "releaseDate",
+        "description": "The release date for the release notes.",
+        "defaultValue": "2025-05-06"
+      }
+    ]
+  }
+}
