@@ -24,4 +24,11 @@ public sealed class GitPlugin(IGitService gitService)
         var result = gitService.GetCommits(count);
         return result;
     }
+
+    [KernelFunction, Description("Gets Last Taged Version in repository")]
+    public string GetLastTagVersion()
+    {
+        var result = gitService.GetLatestTaggedVersion();
+        return result;
+    }
 }

@@ -125,4 +125,28 @@ public class GitService(ILogger<GitService> logger) : IGitService
 
         return sb.ToString();
     }
+
+    public string GetLatestTaggedVersion()
+    {
+        if (_repo == null)
+        {
+            _logger.LogError("Repository is not set.");
+            return "Repository is not set.";
+        }
+        // Get the list of tags in the repository
+        var tags = _repo.Tags;
+
+        // Find the latest tag based on commit reference
+        var latestTag = tags.OrderByDescending(tag => tag.PeeledTarget as Commit)
+            .FirstOrDefault();
+
+        if (latestTag != null)
+        {
+            return latestTag.FriendlyName; // This will return the tag name
+        }
+        else
+        {
+            return "No tags found";
+        }
+    }
 }
