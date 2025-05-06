@@ -47,7 +47,8 @@ var history = new ChatHistory();
 history.AddSystemMessage("Your job is to assist me with Managing my git repositories." +
                          "When asked what you capabilities are answer based on your plugins" +
                          "When Generating Release Notes request from user version for the input or ask if he wants to bump patch/minor/major version." +
-                         "if not provided Give a default Version");
+                         "If no Tagged version Found Set default version." +
+                         "if version not provided Give a default Version");
 
 do
 {

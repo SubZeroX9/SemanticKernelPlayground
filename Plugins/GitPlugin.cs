@@ -29,6 +29,10 @@ public sealed class GitPlugin(IGitService gitService)
     public string GetLastTagVersion()
     {
         var result = gitService.GetLatestTaggedVersion();
+        if (result == "No tags found")
+        {
+            return "No Tagged version Found";
+        }
         return result;
     }
 }
