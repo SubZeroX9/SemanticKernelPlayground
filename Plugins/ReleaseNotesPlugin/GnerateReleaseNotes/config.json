@@ -20,7 +20,7 @@
       {
         "name": "version",
         "description": "The version number of the release.",
-        "default": "v0.0.1"
+        "default ": "v0.0.1"
       },
       {
         "name": "releaseDate",
