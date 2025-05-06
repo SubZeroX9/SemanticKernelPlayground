@@ -20,7 +20,7 @@
       {
         "name": "version",
         "description": "The version number of the release.",
-        "defaultValue": "v1.0.0"
+        "defaultValue": "v0.0.1"
       },
       {
         "name": "releaseDate",
@@ -28,5 +28,16 @@
         "defaultValue": "2025-05-06"
       }
     ]
+  },
+  "output": {
+    "parameters": [
+      {
+        "name": "releaseNotes",
+        "description": "Structured release notes based on the provided commit messages, version, and release date."
+      }
+    ]
+  },
+  "versioning": {
+    "handleVersionFallback": "If the version is not explicitly provided, the system will attempt to retrieve the latest git tag or default to 'v0.0.1'."
   }
 }
