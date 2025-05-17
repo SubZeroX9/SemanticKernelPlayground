@@ -6,21 +6,14 @@ using System.Text;
 
 namespace SemanticKernelPlayground.Services;
 
-public class CodebaseReaderService : ICodebaseReaderService
+public class CodebaseReaderService(ILogger<CodebaseReaderService> logger) : ICodebaseReaderService
 {
-    private readonly ILogger<CodebaseReaderService> _logger;
-
-    public CodebaseReaderService(ILogger<CodebaseReaderService> logger)
-    {
-        _logger = logger;
-    }
-
     public IEnumerable<TextChunk> ScanCodebase(string basePath, int maxChunkSize = 1000)
     {
         var chunks = new List<TextChunk>();
         var codeFiles = GetAllCodeFiles(basePath);
 
-        _logger.LogInformation("Found {Count} code files to process", codeFiles.Count);
+        logger.LogInformation("Found {Count} code files to process", codeFiles.Count);
 
         foreach (var filePath in codeFiles)
         {
@@ -34,11 +27,11 @@ public class CodebaseReaderService : ICodebaseReaderService
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error processing file: {FilePath}", filePath);
+                logger.LogError(ex, "Error processing file: {FilePath}", filePath);
             }
         }
 
-        _logger.LogInformation("Created {Count} text chunks from codebase", chunks.Count);
+        logger.LogInformation("Created {Count} text chunks from codebase", chunks.Count);
         return chunks;
     }
 
@@ -47,7 +40,7 @@ public class CodebaseReaderService : ICodebaseReaderService
         var supportedExtensions = CodeScanningConfig.GetSupportedFileExtensions();
         var excludedDirs = CodeScanningConfig.GetExcludedDirectories();
 
-        _logger.LogInformation("Scanning for files with extensions: {Extensions}", string.Join(", ", supportedExtensions));
+        logger.LogInformation("Scanning for files with extensions: {Extensions}", string.Join(", ", supportedExtensions));
 
         // Normalize path separators in basePath
         basePath = Path.GetFullPath(basePath);
