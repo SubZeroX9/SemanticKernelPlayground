@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SemanticKernelPlayground.Models;
 using SemanticKernelPlayground.Services.Interfaces;
+using SemanticKernelPlayground.Utilities;
 using System.Text;
 
 namespace SemanticKernelPlayground.Services;
@@ -43,12 +44,29 @@ public class CodebaseReaderService : ICodebaseReaderService
 
     private List<string> GetAllCodeFiles(string basePath)
     {
-        var codeExtensions = new[] { ".cs", ".json", ".csproj", ".sln", ".md", ".txt" };
-        var excludedDirs = new[] { "bin", "obj", ".git", ".vs", "node_modules" };
+        var supportedExtensions = CodeScanningConfig.GetSupportedFileExtensions();
+        var excludedDirs = CodeScanningConfig.GetExcludedDirectories();
+
+        _logger.LogInformation("Scanning for files with extensions: {Extensions}", string.Join(", ", supportedExtensions));
+
+        // Normalize path separators in basePath
+        basePath = Path.GetFullPath(basePath);
 
         return Directory.GetFiles(basePath, "*.*", SearchOption.AllDirectories)
-            .Where(f => codeExtensions.Contains(Path.GetExtension(f).ToLowerInvariant()))
-            .Where(f => !excludedDirs.Any(dir => f.Contains($"{Path.DirectorySeparatorChar}{dir}{Path.DirectorySeparatorChar}")))
+            // Filter by supported extensions
+            .Where(f => supportedExtensions.Contains(Path.GetExtension(f).ToLowerInvariant()))
+            // Filter out excluded directories - more comprehensive check
+            .Where(f =>
+            {
+                // Convert to a normalized path relative to basePath
+                var relativePath = Path.GetRelativePath(basePath, f);
+
+                // Check if any excluded directory is in the path segments
+                var pathParts = relativePath.Split(Path.DirectorySeparatorChar);
+
+                // Return true if NONE of the path parts match excluded directories
+                return !pathParts.Any(part => excludedDirs.Contains(part));
+            })
             .ToList();
     }
 
