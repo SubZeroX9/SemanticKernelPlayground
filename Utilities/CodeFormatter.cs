@@ -69,19 +69,4 @@ public static class CodeFormatter
             _ => "text"
         };
     }
-
-    // Checks if a given file extension is supported for syntax highlighting
-    public static bool IsSupportedExtension(string extension)
-    {
-        // Normalize extension format
-        if (!extension.StartsWith("."))
-            extension = $".{extension}";
-
-        extension = extension.ToLowerInvariant();
-
-        // Get all supported extensions from the switch statement above
-        var supportedExtensions = CodeScanningConfig.GetSupportedFileExtensions();
-
-        return supportedExtensions.Contains(extension);
-    }
 }
