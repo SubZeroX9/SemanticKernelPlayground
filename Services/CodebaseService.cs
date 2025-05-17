@@ -25,10 +25,6 @@ public class CodebaseService(
             // Get codebase chunks
             var codeChunks = codebaseReader.ScanCodebase(basePath);
 
-            // Create or get vector store collection
-            var collection = vectorStore.GetCollection<string, TextChunk>(CollectionName);
-            await collection.CreateCollectionIfNotExistsAsync();
-
             // Process and index each chunk
             var dataUploader = new DataUploader(vectorStore, embeddingService);
             await dataUploader.UploadToVectorStore(CollectionName, codeChunks);
